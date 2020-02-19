@@ -10,6 +10,7 @@ let startedGame = false
 startBttn.addEventListener("click", () => {
     
     document.getElementById("phraseUl").innerHTML=""
+    document.getElementById("docbody").style.backgroundColor= ""
     
     for (i = 0; i < keyBttns.length; i++) {
         keyBttns[i].disabled = false

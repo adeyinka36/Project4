@@ -8,6 +8,7 @@ let startedGame = false
 
 //  this methods resets the game once the start button is clicked and it also instantiates a new game object
 startBttn.addEventListener("click", () => {
+    
     while (document.getElementById("phraseUl").firstElementChild) {
         document.getElementById("phraseUl").removeChild(document.getElementById("phraseUl").childNodes[0])
     }
@@ -22,6 +23,7 @@ startBttn.addEventListener("click", () => {
 
     const game = new Game()
     game.startGame()
+ 
     startedGame = true
     for (i = 0; i < keyBttns.length; i++) {
         keyBttns[i].addEventListener("click", game.handleInteraction.bind(game))
@@ -30,5 +32,5 @@ startBttn.addEventListener("click", () => {
     if (startedGame) {
         document.addEventListener("keyup", game.keyboardEventHandler.bind(game))
     }
-
+    startBttn.click()
 })

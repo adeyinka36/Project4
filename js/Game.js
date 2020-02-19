@@ -23,36 +23,38 @@ class Game {
         }
         // this method starts a game and uses a phrase from my phrase list to instantiate a Phrase object
     startGame() {
+            
             overlay.style.visibility = "hidden"
             this.activePhrases = this.getRandomPhrase()
             this.activePhrases.addPhraseToDisplay()
         }
         // this method returns a random phrase
     getRandomPhrase() {
-            console.log("yes")
             let ranNum = Math.floor(Math.random() * this.phrases.length)
             let selected = this.phrases[ranNum]
-            console.log(selected)
+            
             return selected
 
 
         }
         // this method removes a life for each wrong guess and updates record of lives left
     removeLife() {
-            console.log("yaii")
-            if (this.missed < 5) {
+        if(this.missed<=4){
                 let heartState = document.getElementsByClassName("tries")
                 for (i = 0; i <= this.missed; i++) {
                     heartState[i].firstElementChild.src = "images/lostHeart.png"
+                    
                 }
-                this.missed += 1
-            } else {
-                this.looseGameOver()
+                this.missed++
+            } 
+            else{
+                
+                this.gameOver()
+                
             }
         }
         // this method checks calls the necessary methods after each guess and disables the button clicked
     handleInteraction(e) {
-            console.log(e)
             let phraseToSplit = this.activePhrases.phrase.toString().split("")
             if (e.target.className == "key") {
                 e.target.disabled = true
@@ -63,13 +65,13 @@ class Game {
                 e.target.classList.add("wrong")
                 body.style.backgroundColor = "red"
                 this.removeLife()
-                this.checkForWin()
+                this.gameOver()
 
             } else {
                 body.style.backgroundColor = "green"
                 e.target.classList.add("chosen")
                 this.activePhrases.showMatchedLetter(e)
-                this.checkForWin()
+                this.gameOver()
 
             }
 
@@ -77,7 +79,6 @@ class Game {
         }
         // this method convert a keybard event into an onscreen keyboard click
     keyboardEventHandler(e) {
-        console.log("i am handling it")
         let buttons = document.getElementsByClassName("key")
         for (i = 0; i < buttons.length; i++) {
             if (event.key === buttons[i].innerText) {
@@ -98,29 +99,34 @@ class Game {
             }
         }
         if (letters.length == revealed.length) {
-            this.winGameOver()
+            return true
 
         } else {
             return false
         }
     }
-    winGameOver() {
+  gameOver() {
+    if(this.checkForWin()){
         for (i = 0; i < keyBttns.length; i++) {
             keyBttns[i].style = ""
         }
-        overlay.style.display = "none"
+        overlay.style.visibility="visible"
         overlay.className = "win"
         message.innerText = "You  Win!"
 
 
     }
-    looseGameOver() {
+    else if(this.missed>=5){
+         this.missed=0
         for (i = 0; i < keyBttns.length; i++) {
             keyBttns[i].style = ""
         }
         overlay.style.visibility = "visible"
         overlay.className = "lose"
         message.innerText = "You lose!"
+        
+    
 
     }
+}
 }

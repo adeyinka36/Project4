@@ -9,21 +9,22 @@ keyBttns = document.getElementsByClassName("key")
 
 
 class Game {
+    
     constructor() {
             this.missed = 0
             this.phrases = [
-                new Phrase('Never regret anything that made you smile'),
+                new Phrase('Believe in yourself'),
                 new Phrase('Do not quit'),
                 new Phrase('Change the world by being yourself'),
                 new Phrase('We are all in this together'),
                 new Phrase('Die with memories not dreams'),
-                new Phrase('Every moment is a fresh begining')
+                new Phrase('The world is yours')
             ]
             this.activePhrases = null
         }
         // this method starts a game and uses a phrase from my phrase list to instantiate a Phrase object
     startGame() {
-            
+            this.missed=0
             overlay.style.visibility = "hidden"
             this.activePhrases = this.getRandomPhrase()
             this.activePhrases.addPhraseToDisplay()
@@ -55,6 +56,9 @@ class Game {
         }
         // this method checks calls the necessary methods after each guess and disables the button clicked
     handleInteraction(e) {
+        e.preventDefault()
+        console.log(e)
+        if(e.target.className!=="chosen" && e.target.className!=="wrong"){
             let phraseToSplit = this.activePhrases.phrase.toString().split("")
             if (e.target.className == "key") {
                 e.target.disabled = true
@@ -75,16 +79,19 @@ class Game {
 
             }
 
-
+        }
         }
         // this method convert a keybard event into an onscreen keyboard click
     keyboardEventHandler(e) {
+        e.preventDefault()
+        if(e.target.className!=="chosen"&&e.target.className!=="wrong"){
         let buttons = document.getElementsByClassName("key")
         for (i = 0; i < buttons.length; i++) {
             if (event.key === buttons[i].innerText) {
                 buttons[i].click()
             }
         }
+    }
     }
 
     // this method checks for a win
@@ -117,10 +124,10 @@ class Game {
 
     }
     else if(this.missed>=5){
-         this.missed=0
         for (i = 0; i < keyBttns.length; i++) {
             keyBttns[i].style = ""
         }
+        this.missed=0
         overlay.style.visibility = "visible"
         overlay.className = "lose"
         message.innerText = "You lose!"

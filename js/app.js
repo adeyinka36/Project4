@@ -8,10 +8,7 @@ startBttn.addEventListener("click", () => {
     document.getElementById("phraseUl").innerHTML = ""
     document.getElementById("docbody").style.backgroundColor = ""
 
-    // making  all the keys  visible
-    for (i = 0; i < keyBttns.length; i++) {
-        keyBttns[i].style.visibility = "visible"
-    };
+    
     // enabling buttons
     for (i = 0; i < keyBttns.length; i++) {
         keyBttns[i].disabled = false
@@ -29,6 +26,7 @@ startBttn.addEventListener("click", () => {
     startedGame = true
     for (i = 0; i < keyBttns.length; i++) {
         keyBttns[i].addEventListener("click", game.handleInteraction.bind(game))
+        
     };
     // keyboard event
     if (startedGame) {

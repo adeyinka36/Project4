@@ -34,6 +34,7 @@ class Game {
         let body = document.getElementById("docbody")
         e.target.disabled = true
         e.target.style.transform = "rotate(360deg)"
+        
         if (this.activePhrases.checkLetter(e)) {
             body.style.backgroundColor = "green"
             e.target.classList.add("chosen")
@@ -47,6 +48,7 @@ class Game {
             this.removeLife()
 
         }
+        
     };
     keyboardEventHandler(e) {
         let buttons = document.getElementsByClassName("key");
@@ -83,8 +85,9 @@ class Game {
         let buttons = document.getElementsByClassName("key")
         let message = document.getElementById("game-over-message")
         if (this.checkForWin()) {
-            for (i = 0; i < buttons.length; i++) {
-                buttons[i].style.visibility = "hidden"
+            for(i=0;i<buttons.length;i++){
+                buttons[i].className="key"
+                buttons[i].style=""
             }
 
             this.missed = 0
@@ -93,10 +96,11 @@ class Game {
             overlay.className = "win"
             message.innerText = "You  Win!"
         } else if (this.missed >= 5) {
-
-            for (i = 0; i < buttons.length; i++) {
-                buttons[i].style.visibility = "hidden"
+            for(i=0;i<buttons.length;i++){
+                buttons[i].className="key"
+                buttons[i].style=""
             }
+            
             this.missed = 0
             overlay.style.visibility = "visible"
             overlay.className = "lose"

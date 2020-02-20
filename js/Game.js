@@ -24,29 +24,32 @@ class Game {
         }
         // this method starts a game and uses a phrase from my phrase list to instantiate a Phrase object
     startGame() {
-            this.missed=0
-            overlay.style.visibility = "hidden"
+            
+            overlay.style.visibility = "hidden"       
+            
             this.activePhrases = this.getRandomPhrase()
             this.activePhrases.addPhraseToDisplay()
+            console.log(this.activePhrases)
+            console.log(this.activePhrases.phrase)
+        
         }
         // this method returns a random phrase
     getRandomPhrase() {
             let ranNum = Math.floor(Math.random() * this.phrases.length)
             let selected = this.phrases[ranNum]
+            console.log(selected)
             
             return selected
 
 
         }
+        
         // this method removes a life for each wrong guess and updates record of lives left
     removeLife() {
         if(this.missed<=4){
-                let heartState = document.getElementsByClassName("tries")
-                for (i = 0; i <= this.missed; i++) {
-                    heartState[i].firstElementChild.src = "images/lostHeart.png"
-                    
-                }
-                this.missed++
+                let  heartState = document.getElementsByClassName("tries")
+                    heartState[this.missed].firstElementChild.src = "images/lostHeart.png"
+                    this.missed++
             } 
             else{
                 
@@ -57,29 +60,34 @@ class Game {
         // this method checks calls the necessary methods after each guess and disables the button clicked
     handleInteraction(e) {
         e.preventDefault()
-        console.log(e)
         if(e.target.className!=="chosen" && e.target.className!=="wrong"){
-            let phraseToSplit = this.activePhrases.phrase.toString().split("")
+            let  phraseToSplit = this.activePhrases.phrase.toString().split("")
+            
             if (e.target.className == "key") {
                 e.target.disabled = true
                 e.target.style.transform = "rotate(360deg)"
             }
 
             if (!phraseToSplit.includes(e.target.innerText)) {
+                console.log(phraseToSplit)
                 e.target.classList.add("wrong")
                 body.style.backgroundColor = "red"
                 this.removeLife()
                 this.gameOver()
-
-            } else {
+            } 
+            else if(phraseToSplit.includes(e.target.innerText)){
+                console.log(phraseToSplit)
                 body.style.backgroundColor = "green"
                 e.target.classList.add("chosen")
                 this.activePhrases.showMatchedLetter(e)
+            
                 this.gameOver()
+        
 
             }
 
         }
+        
         }
         // this method convert a keybard event into an onscreen keyboard click
     keyboardEventHandler(e) {
@@ -124,14 +132,14 @@ class Game {
 
     }
     else if(this.missed>=5){
+        this.missed=0
         for (i = 0; i < keyBttns.length; i++) {
             keyBttns[i].style = ""
         }
-        this.missed=0
         overlay.style.visibility = "visible"
         overlay.className = "lose"
         message.innerText = "You lose!"
-        
+    
     
 
     }

@@ -23,7 +23,7 @@ startBttn.addEventListener("click", () => {
 
     const game = new Game()
     game.startGame()
- 
+    
     startedGame = true
     for (i = 0; i < keyBttns.length; i++) {
         keyBttns[i].addEventListener("click", game.handleInteraction.bind(game))

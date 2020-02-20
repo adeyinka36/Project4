@@ -5,12 +5,13 @@
 const phraseUl = document.getElementById("phraseUl")
 const lettersInDom = document.getElementsByClassName("letter")
 const lettersArray = Array.from(lettersInDom)
+const checkArray=[]
 
 
 
 class Phrase {
     constructor(phrase) {
-        console.log (phrase)
+        
             this.phrase = phrase.toString().toLowerCase()
             
             this.splitPhrase = this.phrase.split("")
@@ -19,7 +20,9 @@ class Phrase {
         }
         // this method creates an  icon on the screen for each letter of the active phrsase and sets the appropraite class 
     addPhraseToDisplay() {
-        
+        for(i=0;i<this.splitPhrase.length;i++){
+            checkArray.push(this.splitPhrase[i])
+        }
         
         // making sure only active phrase is being compared to input
         let pastLetters=document.getElementsByClassName("letter")

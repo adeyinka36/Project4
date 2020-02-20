@@ -61,20 +61,21 @@ class Game {
         if(e.target.className!=="chosen" && e.target.className!=="wrong"){
             let  phraseToSplit = this.activePhrases.phrase.toString().split("")
             
+            
             if (e.target.className == "key") {
                 e.target.disabled = true
                 e.target.style.transform = "rotate(360deg)"
             }
 
-            if (!phraseToSplit.includes(e.target.innerText)) {
-                console.log(phraseToSplit)
+            if (!checkArray.includes(e.target.innerText)) {
+                
                 e.target.classList.add("wrong")
                 body.style.backgroundColor = "red"
                 this.removeLife()
                 this.gameOver()
             } 
-            else if(phraseToSplit.includes(e.target.innerText)){
-                console.log(phraseToSplit)
+            else if(checkArray.includes(e.target.innerText)){
+                
                 body.style.backgroundColor = "green"
                 e.target.classList.add("chosen")
                 this.activePhrases.showMatchedLetter(e)

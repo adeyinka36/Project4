@@ -61,7 +61,7 @@ class Game {
     };
     // This method removes a liveheart for each wrong guess
     removeLife() {
-        if (this.missed <= 4) {
+        if (this.missed < 4) {
             let heartState = document.getElementsByClassName("tries");
             heartState[this.missed].firstElementChild.src = "images/lostHeart.png"
             this.missed++
@@ -95,7 +95,7 @@ class Game {
             overlay.style.visibility = "visible"
             overlay.className = "win"
             message.innerText = "You  Win!"
-        } else if (this.missed >= 5) {
+        } else if (this.missed >= 4) {
             for(i=0;i<buttons.length;i++){
                 buttons[i].className="key"
                 buttons[i].style=""

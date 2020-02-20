@@ -1,15 +1,4 @@
-/* Treehouse FSJS Techdegree
- * Project 4 - OOP Game App
- * Game.js */
-// Here i store some important elements in variables for easy access
-const overlay = document.getElementById("overlay")
-const message = document.getElementById("game-over-message")
-const body = document.getElementById("docbody")
-keyBttns = document.getElementsByClassName("key")
-
-
 class Game {
-    
     constructor() {
             this.missed = 0
             this.phrases = [
@@ -22,125 +11,97 @@ class Game {
             ]
             this.activePhrases = null
         }
-        // this method starts a game and uses a phrase from my phrase list to instantiate a Phrase object
+        // this method initializes a game and makes the overlay invisible
     startGame() {
-            
-            overlay.style.visibility = "hidden"       
-            
-            this.activePhrases = this.getRandomPhrase()
-            this.activePhrases.addPhraseToDisplay()
-            
-        
-        }
-        // this method returns a random phrase
+        let overlay = document.getElementById("overlay");
+
+        overlay.style.visibility = "hidden"
+        this.activePhrases = this.getRandomPhrase();
+        this.activePhrases.addPhraseToDisplay();
+
+    };
+    // this method gets a random phrase
     getRandomPhrase() {
-            let ranNum = Math.floor(Math.random() * this.phrases.length)
-            let selected = this.phrases[ranNum]
-            
-            return selected
+        let ranNum = Math.floor(Math.random() * this.phrases.length);
+        let selected = this.phrases[ranNum]
+
+        return selected
 
 
-        }
-        
-        // this method removes a life for each wrong guess and updates record of lives left
-    removeLife() {
-        if(this.missed<=4){
-                let  heartState = document.getElementsByClassName("tries")
-                    heartState[this.missed].firstElementChild.src = "images/lostHeart.png"
-                    this.missed++
-            } 
-            else{
-                
-                this.gameOver()
-                
-            }
-        }
-        // this method checks calls the necessary methods after each guess and disables the button clicked
+    };
+    //    this method handles the inputs and controls the game flow
     handleInteraction(e) {
-        e.preventDefault()
-        if(e.target.className!=="chosen" && e.target.className!=="wrong"){
-            let  phraseToSplit = this.activePhrases.phrase.toString().split("")
-            
-            
-            if (e.target.className == "key") {
-                e.target.disabled = true
-                e.target.style.transform = "rotate(360deg)"
-            }
-
-            if (!checkArray.includes(e.target.innerText)) {
-                
-                e.target.classList.add("wrong")
-                body.style.backgroundColor = "red"
-                this.removeLife()
+        let body = document.getElementById("docbody")
+        e.target.disabled = true
+        e.target.style.transform = "rotate(360deg)"
+        if (this.activePhrases.checkLetter(e)) {
+            body.style.backgroundColor = "green"
+            e.target.classList.add("chosen")
+            this.activePhrases.showMatchedLetter(e)
+            if (this.checkForWin(e)) {
                 this.gameOver()
-            } 
-            else if(checkArray.includes(e.target.innerText)){
-                
-                body.style.backgroundColor = "green"
-                e.target.classList.add("chosen")
-                this.activePhrases.showMatchedLetter(e)
-            
-                this.gameOver()
-        
-
             }
+        } else {
+            e.target.classList.add("wrong")
+            body.style.backgroundColor = "red"
+            this.removeLife()
 
         }
-        
-        }
-        // this method convert a keybard event into an onscreen keyboard click
+    };
     keyboardEventHandler(e) {
-        e.preventDefault()
-        if(e.target.className!=="chosen"&&e.target.className!=="wrong"){
-        let buttons = document.getElementsByClassName("key")
+        let buttons = document.getElementsByClassName("key");
         for (i = 0; i < buttons.length; i++) {
             if (event.key === buttons[i].innerText) {
-                buttons[i].click()
+                buttons[i].click();
             }
         }
-    }
-    }
 
+    };
+    // This method removes a liveheart for each wrong guess
+    removeLife() {
+        if (this.missed <= 4) {
+            let heartState = document.getElementsByClassName("tries");
+            heartState[this.missed].firstElementChild.src = "images/lostHeart.png"
+            this.missed++
+        } else {
+            this.gameOver()
+        }
+    };
     // this method checks for a win
-    checkForWin() {
-        let phraseToSplit = this.activePhrases.phrase.toString().split("")
-        let letters = []
-        let revealed = document.getElementsByClassName("show")
-        for (i = 0; i < phraseToSplit.length; i++) {
-            if (phraseToSplit[i] != " ") {
-                letters.push(phraseToSplit[i])
-
-            }
-        }
-        if (letters.length == revealed.length) {
+    checkForWin(e) {
+        console.log("checking")
+        let lettersInDom = document.getElementsByClassName("letter")
+        let shown = document.getElementsByClassName("show")
+        if (shown.length == lettersInDom.length) {
             return true
-
         } else {
             return false
         }
-    }
-  gameOver() {
-    if(this.checkForWin()){
-        for (i = 0; i < keyBttns.length; i++) {
-            keyBttns[i].style = ""
-        }
-        overlay.style.visibility="visible"
-        overlay.className = "win"
-        message.innerText = "You  Win!"
+    };
+    //  This method clears the screen , restores values to default and ends the game
+    gameOver() {
+        let buttons = document.getElementsByClassName("key")
+        let message = document.getElementById("game-over-message")
+        if (this.checkForWin()) {
+            for (i = 0; i < buttons.length; i++) {
+                buttons[i].style.visibility = "hidden"
+            }
 
+            this.missed = 0
 
-    }
-    else if(this.missed>=5){
-        this.missed=0
-        for (i = 0; i < keyBttns.length; i++) {
-            keyBttns[i].style = ""
-        }
-        overlay.style.visibility = "visible"
-        overlay.className = "lose"
-        message.innerText = "You lose!"
-    
-    
+            overlay.style.visibility = "visible"
+            overlay.className = "win"
+            message.innerText = "You  Win!"
+        } else if (this.missed >= 5) {
 
-    }
-}
-}
+            for (i = 0; i < buttons.length; i++) {
+                buttons[i].style.visibility = "hidden"
+            }
+            this.missed = 0
+            overlay.style.visibility = "visible"
+            overlay.className = "lose"
+            message.innerText = "You lose!"
+
+        };
+    };
+};

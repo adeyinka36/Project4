@@ -10,15 +10,16 @@ const lettersArray = Array.from(lettersInDom)
 
 class Phrase {
     constructor(phrase) {
+        console.log (phrase)
             this.phrase = phrase.toString().toLowerCase()
-            console.log(this.phrase)
+            
             this.splitPhrase = this.phrase.split("")
-            console.log(this.splitPhrase)
+            
             this.matches = []
         }
         // this method creates an  icon on the screen for each letter of the active phrsase and sets the appropraite class 
     addPhraseToDisplay() {
-        console.log(this.phrase)
+        
         
         // making sure only active phrase is being compared to input
         let pastLetters=document.getElementsByClassName("letter")
@@ -41,7 +42,7 @@ class Phrase {
                     currentPhraseLi.classList.add("hide", "letter", splitPhrase[i])
                     currentPhraseLi.innerText = splitPhrase[i]
                     phraseUl.appendChild(currentPhraseLi)
-                    console.log(phraseUl)
+                    
                     
 
                 }

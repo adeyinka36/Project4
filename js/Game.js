@@ -29,15 +29,13 @@ class Game {
             
             this.activePhrases = this.getRandomPhrase()
             this.activePhrases.addPhraseToDisplay()
-            console.log(this.activePhrases)
-            console.log(this.activePhrases.phrase)
+            
         
         }
         // this method returns a random phrase
     getRandomPhrase() {
             let ranNum = Math.floor(Math.random() * this.phrases.length)
             let selected = this.phrases[ranNum]
-            console.log(selected)
             
             return selected
 

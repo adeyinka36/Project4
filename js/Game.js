@@ -15,7 +15,7 @@ class Game {
     startGame() {
         let overlay = document.getElementById("overlay");
 
-        overlay.style.visibility = "hidden"
+        overlay.style.display = "none"
         this.activePhrases = this.getRandomPhrase();
         this.activePhrases.addPhraseToDisplay();
 
@@ -82,27 +82,32 @@ class Game {
     };
     //  This method clears the screen , restores values to default and ends the game
     gameOver() {
+        let qwerty= document.getElementById("qwerty")
         let buttons = document.getElementsByClassName("key")
         let message = document.getElementById("game-over-message")
+
         if (this.checkForWin()) {
+            
             for(i=0;i<buttons.length;i++){
                 buttons[i].className="key"
-                buttons[i].style=""
+                buttons[i].style.display="none"
+
             }
 
             this.missed = 0
 
-            overlay.style.visibility = "visible"
+            overlay.style.display = "flex"
             overlay.className = "win"
             message.innerText = "You  Win!"
         } else if (this.missed >= 4) {
+            
             for(i=0;i<buttons.length;i++){
                 buttons[i].className="key"
-                buttons[i].style=""
+                buttons[i].style.display="none"
             }
             
             this.missed = 0
-            overlay.style.visibility = "visible"
+            overlay.style.display="flex"
             overlay.className = "lose"
             message.innerText = "You lose!"
 

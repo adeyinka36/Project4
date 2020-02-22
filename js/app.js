@@ -12,8 +12,10 @@ startBttn.addEventListener("click", () => {
     // enabling buttons
     for (i = 0; i < keyBttns.length; i++) {
         keyBttns[i].disabled = false
+        keyBttns[i].style = ""
         keyBttns[i].className = "key"
     };
+    
     // restoring lives
     let heartState = document.getElementsByClassName("tries")
     for (i = 0; i < heartState.length; i++) {
